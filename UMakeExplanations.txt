@@ -19,6 +19,7 @@
 ^Expression has no effect	Non-function expressions in void context (outside an assignment or a function call) are invalid.
 ^Unrecognized member (\S+) in class (\w+)	The compiler wasn't able to find a variable or function called $1 in class $2. Check for typos.
 ^Unrecognized type \S+	The class, enum or struct you wanted to use is not declared or not visible from this point. Check for typos.
+^Unknown member (\S+) in struct (\S+)	The compiler wasn't able to find a struct member called $1 in your definition of struct $2. Check for typos.
 ^Type mismatch in \S+	The variable type you specified doesn't match the type the operatore requires and can't be automatically casted to the required type.\nEither do an explicit typecast to a supported type, or use a different operator.
 ^Type mismatch in If	The condition of an "if" statement must evaluate to a boolean value.\nCheck whether you accidentally used "=" instead of "==" in your expression, or explicitely typecast it to bool.
 ^Bool arrays are not allowed	Unfortunately, bool arrays aren't supported by the engine.\nUse a byte array instead.
