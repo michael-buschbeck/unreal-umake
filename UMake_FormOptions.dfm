@@ -430,11 +430,13 @@ object FormOptions: TFormOptions
       object LabelShortcutDesktopExplanation: TLabel
         Left = 24
         Top = 44
-        Width = 379
+        Width = 377
         Height = 26
+        AutoSize = False
         Caption = 
-          'You can drag-and-drop an UnrealScript source file from Explorer ' +
-          'on the UMake desktop shortcut to compile it.'
+          'Set up desktop shortcuts that can act as drop targets for Unreal' +
+          'Script source files or directly compile the currently loaded or ' +
+          'most recently modified project.'
         WordWrap = True
       end
       object LabelShortcutExplorer: TLabel
@@ -462,6 +464,7 @@ object FormOptions: TFormOptions
         Top = 156
         Width = 378
         Height = 26
+        AutoSize = False
         Caption = 
           'Register additional Explorer right-click menu commands for Unrea' +
           'lScript source files to quickly compile them with UMake or chang' +
@@ -473,7 +476,7 @@ object FormOptions: TFormOptions
         Top = 82
         Width = 169
         Height = 25
-        Caption = 'Create &Desktop Shortcut'
+        Caption = 'Create &Desktop Shortcut...'
         TabOrder = 1
         OnClick = ButtonShortcutDesktopClick
       end

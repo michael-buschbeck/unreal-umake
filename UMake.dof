@@ -49,7 +49,7 @@ Conditionals=
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=
+RunParams=/auto C:\Programme\Spiele\UT2003
 HostApplication=
 [Version Info]
 IncludeVerInfo=1
@@ -57,7 +57,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=1
 Release=0
-Build=22
+Build=23
 Debug=0
 PreRelease=0
 Special=0
@@ -68,7 +68,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Phase
 FileDescription=UMake
-FileVersion=1.1.0.22
+FileVersion=1.1.0.23
 InternalName=UMake
 LegalCopyright=2002 by Mychaeel <mychaeel@beyondunreal.com>
 LegalTrademarks=

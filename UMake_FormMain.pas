@@ -256,27 +256,31 @@ var
   CountFiles: Integer;
   DateTimePackage: TDateTime;
   DateTimeSource: TDateTime;
+  FlagAuto: Boolean;
   FlagSetup: Boolean;
   FlagUpdated: Boolean;
   IndexPackage: Integer;
   IndexParam: Integer;
   IndexProject: Integer;
-  ResultFind: Integer;
-  SearchRec: TSearchRec;
+  ResultFindDir: Integer;
+  ResultFindFile: Integer;
+  SearchRecDir: TSearchRec;
+  SearchRecFile: TSearchRec;
+  TextDirGame: string;
   TextDirPackage: string;
+  TextDirPackageLatest: string;
   TextFilePackage: string;
   TextFileSource: string;
   TextPackage: string;
 begin
+  FlagAuto  := False;
   FlagSetup := False;
-  TextFileSource := '';
+  TextFileSource := EmptyStr;
 
   for IndexParam := 1 to ParamCount do
   begin
-    if AnsiSameText(ParamStr(IndexParam), '/setup') then
-    begin
-      FlagSetup := True;
-    end
+         if AnsiSameText(ParamStr(IndexParam), '/setup') then FlagSetup := True
+    else if AnsiSameText(ParamStr(IndexParam), '/auto')  then FlagAuto  := True
 
     else if (Length(ParamStr(IndexParam)) > 0) and (ParamStr(IndexParam)[1] <> '/') then
     begin
@@ -297,6 +301,13 @@ begin
       FormOptions.ShowModal;
       Close;
     end
+
+    else if FlagAuto then
+    begin
+      Application.MessageBox('Specify the base directory of a game along with the /auto switch to automatically compile the most recently modified project for that game.', PChar(Application.Title), MB_ICONINFORMATION);
+      Close;
+    end
+
     else begin
       FormLaunch.Options := Options;
       if FormLaunch.ShowModal = mrOk
@@ -305,17 +316,74 @@ begin
     end;
   end
   else begin
-    TextDirPackage := ExcludeTrailingBackslash(ExtractFilePath(TextFileSource));
-    if AnsiSameText(ExtractFileName(TextDirPackage), 'Classes') then
-      TextDirPackage := ExcludeTrailingBackslash(ExtractFilePath(TextDirPackage));
+    if FlagAuto then
+    begin
+      TextDirGame := GetLongPath(TextFileSource);
+      TextFileSource := EmptyStr;
 
-    try
-      Configuration := TConfiguration.Create(ExtractFileName(TextDirPackage), ExtractFilePath(TextDirPackage));
-    except
-      on EConfigurationGameDirNotFound    do ErrorMessageBox('Game directory not found for the given file.');
-      on EConfigurationGameDirInvalid     do ErrorMessageBox('UnrealScript project directories must be located directly below the game base directory.');
-      on EConfigurationPackageDirNotFound do ErrorMessageBox('Package directory not found for the given file.');
-      on EConfigurationPackageDirInvalid  do ErrorMessageBox('UnrealScript project directories must contain a "Classes" subdirectory for UnrealScript source files.');
+      if FileExists(IncludeTrailingBackslash(TextDirGame) + 'System\ucc.exe') then
+      begin
+        DateTimeSource := 0.0;
+        TextDirPackageLatest := EmptyStr;
+
+        try
+          ResultFindDir := FindFirst(IncludeTrailingBackslash(TextDirGame) + '*', faDirectory, SearchRecDir);
+          while ResultFindDir = 0 do
+          begin
+            TextDirPackage := IncludeTrailingBackslash(TextDirGame) + SearchRecDir.Name + '\';
+
+            if DirectoryExists(TextDirPackage + 'Classes') then
+            begin
+              ResultFindFile := FindFirst(TextDirPackage + 'Classes\*.uc', faAnyFile, SearchRecFile);
+              while ResultFindFile = 0 do
+              begin
+                if DateTimeSource < FileDateToDateTime(SearchRecFile.Time) then
+                begin
+                  DateTimeSource := FileDateToDateTime(SearchRecFile.Time);
+                  TextDirPackageLatest := TextDirPackage;
+                end;
+
+                ResultFindFile := FindNext(SearchRecFile);
+              end;
+              FindClose(SearchRecFile);
+            end;
+
+            ResultFindDir := FindNext(SearchRecDir);
+          end;
+          FindClose(SearchRecDir);
+        except
+          on EInOutError do;
+        end;
+
+        if Length(TextDirPackageLatest) = 0 then
+        begin
+          Application.MessageBox('No project directories with source files found in game directory.', PChar(Application.Title), MB_ICONINFORMATION);
+          Close;
+        end
+        else begin
+          TextFileSource := TextDirPackageLatest;
+        end;
+      end
+      else begin
+        Application.MessageBox('Invalid game directory given with /auto switch.', PChar(Application.Title), MB_ICONERROR);
+        Close;
+      end;
+    end;
+
+    if Length(TextFileSource) > 0 then
+    begin
+      TextDirPackage := ExcludeTrailingBackslash(ExtractFilePath(TextFileSource));
+      if AnsiSameText(ExtractFileName(TextDirPackage), 'Classes') then
+        TextDirPackage := ExcludeTrailingBackslash(ExtractFilePath(TextDirPackage));
+
+      try
+        Configuration := TConfiguration.Create(ExtractFileName(TextDirPackage), ExtractFilePath(TextDirPackage));
+      except
+        on EConfigurationGameDirNotFound    do ErrorMessageBox('Game directory not found for the given file.');
+        on EConfigurationGameDirInvalid     do ErrorMessageBox('UnrealScript project directories must be located directly below the game base directory.');
+        on EConfigurationPackageDirNotFound do ErrorMessageBox('Package directory not found for the given file.');
+        on EConfigurationPackageDirInvalid  do ErrorMessageBox('UnrealScript project directories must contain a "Classes" subdirectory for UnrealScript source files.');
+      end;
     end;
   end;
 
@@ -383,17 +451,17 @@ begin
               then DateTimePackage := FileDateToDateTime(FileAge(TextFilePackage))
               else DateTimePackage := 0.0;
 
-            ResultFind := FindFirst(IncludeTrailingBackslash(Configuration.DirGame) + TextPackage + '\Classes\*.uc', faAnyFile, SearchRec);
-            while ResultFind = 0 do
+            ResultFindFile := FindFirst(IncludeTrailingBackslash(Configuration.DirGame) + TextPackage + '\Classes\*.uc', faAnyFile, SearchRecFile);
+            while ResultFindFile = 0 do
             begin
-              DateTimeSource := FileDateToDateTime(SearchRec.Time);
+              DateTimeSource := FileDateToDateTime(SearchRecFile.Time);
               if DateTimeSource > DateTimePackage then
                 FlagUpdated := True;
 
               Inc(CountFiles);
-              ResultFind := FindNext(SearchRec);
+              ResultFindFile := FindNext(SearchRecFile);
             end;
-            FindClose(SearchRec);
+            FindClose(SearchRecFile);
           except
             on EInOutError do;
           end;
@@ -419,7 +487,7 @@ begin
         end;
       end;
 
-      if FlagUpdated or (MessageBox(Application.Handle, 'Your project seems to be up to date. Compile anyway?', PChar(Application.Title), MB_ICONINFORMATION + MB_YESNO) = IDYES)
+      if FlagUpdated or (MessageBox(Application.Handle, PChar(Format('Your project, %s, seems to be up to date. Compile anyway?', [Configuration.Package])), PChar(Application.Title), MB_ICONINFORMATION + MB_YESNO) = IDYES)
         then Show
         else Close;
     end;

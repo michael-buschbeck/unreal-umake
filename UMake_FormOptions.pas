@@ -8,7 +8,7 @@ uses
   UMake_Configuration, UMake_Options,
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ComCtrls, Shellapi, ExtCtrls, CheckLst, Buttons, Menus, SysTools,
-  Shortcuts, Registry;
+  Registry;
 
 
 (*****************************************************************************)
@@ -107,9 +107,9 @@ type
     procedure ButtonBrowsePerformSoundClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButtonBrowsePathsClick(Sender: TObject);
-    procedure ButtonShortcutDesktopClick(Sender: TObject);
     procedure ButtonShortcutExplorerClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure ButtonShortcutDesktopClick(Sender: TObject);
 
   public
     Configuration: TConfiguration;
@@ -131,6 +131,8 @@ var
 
 
 implementation
+
+uses UMake_FormShortcuts;
 
 
 {$R *.DFM}
@@ -536,25 +538,13 @@ end;
 
 
 procedure TFormOptions.ButtonShortcutDesktopClick(Sender: TObject);
-var
-  Registry: TRegistry;
-  ShortcutDesktop: TFileShortcut;
-  TextDirDesktop: string;
 begin
+  FormShortcuts.Left := Left + (Width  - FormShortcuts.Width)  div 2;
+  FormShortcuts.Top  := Top  + (Height - FormShortcuts.Height) div 2;
+  FormShortcuts.Configuration := Configuration;
+  FormShortcuts.ShowModal;
+
   PanelFocusShortcuts.SetFocus;
-
-  Registry := TRegistry.Create;
-  Registry.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders');
-  TextDirDesktop := Registry.ReadString('Desktop');
-  Registry.CloseKey;
-  Registry.Free;
-
-  ShortcutDesktop := TFileShortcut.Create;
-  ShortcutDesktop.Path := GetLongPath(ParamStr(0));
-  ShortcutDesktop.Description := 'Compile an UnrealScript file by dropping it on this icon.';
-  ShortcutDesktop.Save(IncludeTrailingBackslash(TextDirDesktop) + 'UMake.lnk');
-
-  Application.MessageBox('The desktop shortcut has been created.', PChar(Application.Title), MB_ICONINFORMATION);
 end;
 
 
