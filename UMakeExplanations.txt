@@ -1,0 +1,38 @@
+^Bad class definition	If you're coding for UT2003 or another game using the same or a newer engine, keep in mind that the deprecated "expands" keyword isn't supported anymore; use "extends" instead.
+^Superclass (\S+) of class \S+ not found	The compiler wasn't able to find the specified superclass $1 of your class.\nIf it's not a typo, make sure the package containing the superclass is listed in your project's dependencies.
+^Unexpected end of file at end of Class	The most common cause for this error is a missing closing brace "}" or a superfluous opening brace "{" somewhere.
+^Unexpected	The most common cause for this error is a missing opening brace "{" or a superfluous closing brace "}" somewhere.
+^Call to (\w+)	One of the parameters in your function call to $1 doesn't have the right type.\nLook up the original declaration of the function and double-check it against the types of values you're actually using.
+^Can't find (\w+)	The compiler was unable to find a $1 object you referenced in your code.\nIf the references package is a code package, add it to your project's dependencies; if it's another kind of package, consider loading it at the top of your UnrealScript source file using the following line:\n#exec obj load file=..\\(subdir)\\(packagefile)
+^Internal fixup error	The most common cause for this error are multiple "break" statements in a "case" block. The compiler doesn't support that, unfortunately.
+^Else: Bad command or expression	Make sure there is an "if" right before the line the error occurred in.\nIf that "if" block contains more than a single line of code, make sure it's properly enclosed in braces.
+^Else If is not allowed here|^Else is not allowed here	The most common cause for this error is a wrong number of braces after the "if" statement preceding the line the error occurred in.
+^Bad variable or function (\S+) in replication definition	The compiler wasn't able to find a variable or function called $1 in your class.
+^[^:]+: Limitor (\S+) is not a class name	The class name in "class<$1>" does not refer to an existing class.\nIf it's not a typo, make sure the package containing class $2 is listed in your project's dependencies.
+^[^:]+: Bad command or expression	The compiler is unable to recognize the given term as a valid command or expression.
+^Redefinition of \S+ differs from original	When overwriting functions in a subclass, the function's prototype (the number and type of its arguments) must match the original function.
+^Function \S+ specifiers differ from original	The most common cause for this error is an attempt to overwrite a function declared as "final" in a subclass.
+^\S+ conflicts with \S+	You can have only one function of the same name within the same state of a class, and you can't have variables and functions with the same name in the same class at all.\nRename or remove one of the conflicting identifiers.
+^Can't call instance functions from within static functions	Static functions can only call other static functions.\nCheck if your function really needs to be static or whether you forgot to declare the other function as static.
+^Enums can only be declared in class or struct scope	Like the message says: Enumerations can't be declared in functions or operators.
+^Variable declaration: (\S+) already defined	You tried to declare two variables with the same name, $1, in the same function.
+^Expression has no effect	Non-function expressions in void context (outside an assignment or a function call) are invalid.
+^Unrecognized member (\S+) in class (\w+)	The compiler wasn't able to find a variable or function called $1 in class $2. Check for typos.
+^Unrecognized type \S+	The class, enum or struct you wanted to use is not declared or not visible from this point. Check for typos.
+^Type mismatch in \S+	The variable type you specified doesn't match the type the operatore requires and can't be automatically casted to the required type.\nEither do an explicit typecast to a supported type, or use a different operator.
+^Type mismatch in If	The condition of an "if" statement must evaluate to a boolean value.\nCheck whether you accidentally used "=" instead of "==" in your expression, or explicitely typecast it to bool.
+^Bool arrays are not allowed	Unfortunately, bool arrays aren't supported by the engine.\nUse a byte array instead.
+^Can only assign individual \S+, not \S+ arrays	You tried to assign an array to another array; the engine doesn't support that.\nIf you have to, assign the arrays' elements one by one in a "for" loop.
+^Cast from (\S+) to (\S+) will always fail	You're attempting to perform a typecast which will always fail because the class you're casting to, $2, is not a subclass of the variable's class, $1.
+^Cast from \S+ to \S+ is unneccessary|^No need to cast \S+ to itself	You're attempting to perform a typecast to a superclass of the variable's class, or you're trying to typecast an expression to the type it evaluates in anyway.\nGet rid of the unnecessary typecast.
+^Script vs\. class name mismatch \(([^/]+)/([^)]+)\)	Your UnrealScript source file, $1.uc, must have the same base name as the class declared in it, $2.
+^Missing ; in struct	Your struct declaration is missing a ";" character at the end of one or more lines.
+^Invalid property or function call on a dynamic array	Only the following properties and functions are supported for dynamic arrays:\nLength: Sets or returns the number of array elements.\nInsert(index, number): Inserts the given number of new, empty array elements starting at the given index.\nRemove(index, number): Removes the given number of array elements starting at the given index.
+^Illegal character in name	Names (enclosed in single quotes) can only contain alphanumerical characters, dots and underscores.\nIf you actually meant to use a string value, enclose it in double quotes.
+^Missing ; before	The most common cause for this error is an attempt to return a value from a function that doesn't have a return value type in its declaration.
+^Failed loading package	The compiler wasn't able to load the specified package.
+^Unknown property in defaults	One of the variables you attempted to set in the "defaultproperties" section doesn't exist in the current class. (The compiler reports this error both in parsing and compiling stage.)\nIf you're coding for Unreal Tournament or another game using the same engine, keep in mind that no blanks are allowed around the "=" sign.
+^Import Texture \S+	The compiler wasn't able to import the texture from the file you specified.\nCheck for typos, and keep in mind that your project directory is the base directory for file specifications here.
+^Failed factoring	The compiler wasn't able to import the object from the file you specified.\nCheck for typos, and keep in mind that your project directory is the base directory for file specifications here.
+^Texture dimensions are not powers of two	The compiler can only import textures whose pixel dimensions are powers of two (like 2, 4, 8, 16, and so on).
+^Can't find file	The compiler wasn't able to find the specified file for import.\nCheck for typos, and keep in mind that your project directory is the base directory for file specifications here.

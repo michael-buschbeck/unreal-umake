@@ -1,0 +1,84 @@
+===============================================================================
+UMake
+Copyright 2002 by Mychaeel <mychaeel@beyondunreal.com>
+===============================================================================
+
+Mail all bug reports and suggestions to Mychaeel <mychaeel@beyondunreal.com>
+
+
+===============================================================================
+Installation
+===============================================================================
+
+Copy the files into a directory of your liking; it doesn't have to be anywhere
+near your Unreal Tournament directory.
+
+
+===============================================================================
+Info
+===============================================================================
+
+If you're using your own favorite text editor for UnrealScript development,
+you're bound to use "ucc make" manually to compile your scripts. Doing so
+involves a big bunch of small steps, some of which have to be repeated every
+time you want to recompile.
+
+
+Compile
+=======
+
+UMake wraps that call to "ucc make" and everything else that's involved in
+compiling an UnrealScript project in a neat, straightforward graphical user
+interface.
+
+All you have to do to compile a project is dropping an UnrealScript source file
+or project directory on the UMake icon (on your desktop, for instance). UMake
+automatically takes care of adding an EditPackages line, creating a backup of
+and deleting the original package file and running "ucc make" afterwards. If an
+error occurs, UMake restores the backup file and displays a the raw compiler
+error message along with a comprehensible explanation of it.
+
+UMake also warns you if you attempt to compile a project that seems to be up to
+date already and lets you cancel the compilation before it starts. In addition,
+you can abort the compilation process in progress whenever you like; UMake
+automatically restores the last valid version of your package then.
+
+
+Integrate
+=========
+
+UMake provides a whole bunch of integration options for your system and your
+favorite text editor. If you like, you can have UMake create an UnrealScript
+file drop target icon on your desktop and right-click menu extensions for
+Explorer to directly compile any project you like.
+
+If your text editor supports it, you can set it up to launch UMake at the press
+of a keyboard shortcut or a toolbar button. If a compilation error occurs,
+UMake provides an "Edit" button that takes you back to the very line and source
+file that caused the problem (if you configure UMake that way).
+
+
+===============================================================================
+Disclaimer
+===============================================================================
+
+UMake is freeware and is provided "as is" without warranty of any kind, either
+express or implied, including but not limited to the implied warranties of
+merchantability and fitness for a particular purpose. In no event shall the
+author be liable for any damages whatsoever including direct, indirect,
+incidental, consequential, loss of business profits or special damages, even if
+the author has been advised of the possibility of such damages.
+
+
+===============================================================================
+Copyright/Permissions
+===============================================================================
+
+Copyright 2002 by Mychaeel <mychaeel@beyondunreal.com>
+
+Free for noncommercial use and distribution. For anything else please contact
+me in advance. I'm likely not to object to anything, but I'd like to know about
+it before the fact. Thanks for your understanding.
+
+
+===============================================================================
