@@ -1,5 +1,5 @@
 ===============================================================================
-UMake
+UMake 1.1
 Copyright 2002 by Mychaeel <mychaeel@beyondunreal.com>
 ===============================================================================
 
@@ -56,6 +56,23 @@ If your text editor supports it, you can set it up to launch UMake at the press
 of a keyboard shortcut or a toolbar button. If a compilation error occurs,
 UMake provides an "Edit" button that takes you back to the very line and source
 file that caused the problem (if you configure UMake that way).
+
+
+===============================================================================
+Changes
+===============================================================================
+
+Version 1.1 (2002-11-10)
+* Added option to always automatically display compilation details.
+* Added command-line parameter /auto which automatically scans the given game
+  base directory for projects and compiles the most recently modified one.
+* Added extended options for desktop shortcut creation in Options dialog.
+* Added drop-down box with recently compiled projects to launcher.
+* Output parser extracts class names from error messages that don't explicitely
+  mention a source file name and reconstructs the source file name from that.
+
+Version 1.0 (2002-11-06)
+* Initial release.
 
 
 ===============================================================================
