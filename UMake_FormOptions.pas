@@ -35,6 +35,7 @@ type
     ButtonPlaceholdersEditor: TBitBtn;
     ButtonShortcutDesktop: TButton;
     ButtonShortcutExplorer: TButton;
+    CheckBoxDetails: TCheckBox;
     CheckBoxPerformLaunch: TCheckBox;
     CheckBoxPerformSound: TCheckBox;
     CheckBoxPerformWindowClose: TCheckBox;
@@ -70,6 +71,7 @@ type
     OpenDialogSound: TOpenDialog;
     PageControl: TPageControl;
     PageControlPerform: TPageControl;
+    PanelFocusProject: TPanel;
     PanelFocusShortcuts: TPanel;
     PopupMenuPlaceholders: TPopupMenu;
     StaticTextMailAboutHashes: TStaticText;
@@ -82,7 +84,6 @@ type
     TabSheetPerformSuccess: TTabSheet;
     TabSheetProject: TTabSheet;
     TabSheetShortcuts: TTabSheet;
-    PanelFocusProject: TPanel;
 
     procedure StaticTextMailAboutRegexpMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure StaticTextMailAboutRegexpMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -193,6 +194,7 @@ begin
   end;
 
   EditEditor.Text := Options.RegOptEditor.Value;
+  CheckBoxDetails.Checked := Options.RegOptDetails.Value;
 
   for IndexPerform := Low(TOptionsPerformIndex) to High(TOptionsPerformIndex) do
   begin
@@ -650,6 +652,7 @@ var
 begin
   if ModalResult = mrOk then
   begin
+    Options.RegOptDetails.Value := CheckBoxDetails.Checked;
     Options.RegOptEditor.Value := EditEditor.Text;
 
     for IndexPerform := Low(TOptionsPerformIndex) to High(TOptionsPerformIndex) do

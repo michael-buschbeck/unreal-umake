@@ -24,7 +24,7 @@ object FormOptions: TFormOptions
     Top = 4
     Width = 434
     Height = 262
-    ActivePage = TabSheetShortcuts
+    ActivePage = TabSheetGeneral
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
     OnChange = PageControlChange
@@ -163,25 +163,27 @@ object FormOptions: TFormOptions
       object LabelEditor: TLabel
         Left = 9
         Top = 16
-        Width = 68
+        Width = 94
         Height = 13
-        Caption = '&Source Editor:'
+        Caption = '&Source code editor:'
         FocusControl = EditEditor
       end
       object PageControlPerform: TPageControl
         Left = 4
-        Top = 88
+        Top = 112
         Width = 417
-        Height = 141
+        Height = 117
         ActivePage = TabSheetPerformSuccess
         Anchors = [akLeft, akBottom]
+        MultiLine = True
         TabOrder = 3
+        TabPosition = tpLeft
         OnChange = PageControlPerformChange
         object TabSheetPerformSuccess: TTabSheet
-          Caption = 'On Success'
+          Caption = 'Success'
         end
         object TabSheetPerformFailure: TTabSheet
-          Caption = 'On Failure'
+          Caption = 'Failure'
           ImageIndex = 1
         end
       end
@@ -275,7 +277,7 @@ object FormOptions: TFormOptions
         Spacing = 6
       end
       object CheckBoxPerformWindowFront: TCheckBox
-        Left = 112
+        Left = 136
         Top = 127
         Width = 89
         Height = 17
@@ -284,7 +286,7 @@ object FormOptions: TFormOptions
         OnClick = CheckBoxPerformWindowFrontClick
       end
       object CheckBoxPerformWindowClose: TCheckBox
-        Left = 208
+        Left = 232
         Top = 127
         Width = 49
         Height = 17
@@ -293,7 +295,7 @@ object FormOptions: TFormOptions
         OnClick = CheckBoxPerformWindowCloseClick
       end
       object CheckBoxPerformLaunch: TCheckBox
-        Left = 16
+        Left = 40
         Top = 160
         Width = 65
         Height = 17
@@ -302,9 +304,9 @@ object FormOptions: TFormOptions
         OnClick = CheckBoxPerformLaunchClick
       end
       object EditPerformLaunch: TEdit
-        Left = 88
+        Left = 112
         Top = 158
-        Width = 289
+        Width = 265
         Height = 21
         AutoSelect = False
         TabOrder = 8
@@ -345,7 +347,7 @@ object FormOptions: TFormOptions
           C0C0C0C0C0C0C0C0C0C0}
       end
       object CheckBoxPerformSound: TCheckBox
-        Left = 16
+        Left = 40
         Top = 192
         Width = 57
         Height = 17
@@ -388,20 +390,28 @@ object FormOptions: TFormOptions
           C0C0C0C0C0C0C0C0C0C0}
       end
       object StaticTextPerformWindow: TStaticText
-        Left = 16
+        Left = 40
         Top = 128
-        Width = 81
+        Width = 79
         Height = 17
-        Caption = 'UMake Window:'
+        Caption = 'UMake window:'
         TabOrder = 4
       end
       object EditPerformSound: TEdit
-        Left = 88
+        Left = 112
         Top = 190
-        Width = 289
+        Width = 265
         Height = 21
         TabOrder = 12
         OnChange = EditPerformSoundChange
+      end
+      object CheckBoxDetails: TCheckBox
+        Left = 8
+        Top = 71
+        Width = 297
+        Height = 17
+        Caption = '&Always display details during compilation'
+        TabOrder = 13
       end
     end
     object TabSheetShortcuts: TTabSheet

@@ -25,6 +25,7 @@ type
 
   TOptions = class
   public
+    RegOptDetails: TRegOptBoolean;
     RegOptEditor: TRegOptString;
     RegOptProjects: TRegOptString;
     Perform: array [TOptionsPerformIndex] of TOptionsPerform;
@@ -60,6 +61,7 @@ var
   TextNameSetting: string;
   TextNameSound: string;
 begin
+  RegOptDetails  := TRegOptBoolean.Create(TextNameProgram, 'Details', False);
   RegOptEditor   := TRegOptString.Create(TextNameProgram, 'Editor', '');
   RegOptProjects := TRegOptString.CreateList(TextNameProgram, 'Projects');
 
@@ -105,6 +107,7 @@ destructor TOptions.Destroy;
 var
   IndexPerform: TOptionsPerformIndex;
 begin
+  RegOptDetails.Free;
   RegOptEditor.Free;
   RegOptProjects.Free;
 
