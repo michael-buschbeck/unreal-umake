@@ -7,7 +7,7 @@ interface
 uses
   UMake_Configuration, UMake_Options,
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Buttons, ExtCtrls, SysTools, Shellapi, ShlObj, FileCtrl;
+  StdCtrls, Buttons, ExtCtrls, SysTools, Shellapi, FileCtrl;
 
 
 (*****************************************************************************)
@@ -98,26 +98,12 @@ end;
 
 procedure TFormLaunch.ButtonBrowseProjectClick(Sender: TObject);
 var
-  BrowseInfo: TBrowseInfo;
-  PointerIdListPath: Pointer;
-  TextPath: string;
   TextDirPath: string;
 begin
-  SetLength(TextPath,    MAX_PATH);
-  SetLength(TextDirPath, MAX_PATH);
+  TextDirPath := BrowseFolder(Handle, 'Select the UnrealScript project directory you wish to compile:');
 
-  BrowseInfo.hwndOwner      := Handle;
-  BrowseInfo.pidlRoot       := nil;
-  BrowseInfo.pszDisplayName := PChar(TextPath);
-  BrowseInfo.lpszTitle      := 'Select the UnrealScript project directory you wish to compile:';
-  BrowseInfo.ulFlags        := BIF_RETURNONLYFSDIRS;
-  BrowseInfo.lpfn           := nil;
-
-  PointerIdListPath := SHBrowseForFolder(BrowseInfo);
-
-  if Assigned(PointerIdListPath) and SHGetPathFromIDList(PointerIdListPath, PChar(TextDirPath)) then
+  if Length(TextDirPath) > 0 then
   begin
-    SetLength(TextDirPath, Pos(#0, TextDirPath) - 1);
     if AnsiSameText(ExtractFileName(TextDirPath), 'Classes') then
       TextDirPath := ExcludeTrailingBackslash(ExtractFilePath(TextDirPath));
 
