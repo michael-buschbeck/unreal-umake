@@ -142,7 +142,9 @@ begin
     TextCommand := RegOptLaunch.Value;
     if Length(Trim(TextCommand)) > 0 then
     begin
-      TextCommand := ReplaceRegExpr('%package%', TextCommand, Configuration.Package);
+      TextCommand := ReplaceRegExpr('%package%',    TextCommand, Configuration.Package);
+      TextCommand := ReplaceRegExpr('%packagedir%', TextCommand, Configuration.DirPackage);
+      TextCommand := ReplaceRegExpr('%gamedir%',    TextCommand, Configuration.DirGame);
       LaunchProgram(TextCommand);
     end;
 
@@ -161,8 +163,10 @@ begin
   if Length(RegOptEditor.Value) > 0 then
   begin
     TextCommand := RegOptEditor.Value;
-    TextCommand := ReplaceRegExpr('%package%', TextCommand, Configuration.Package);
-    TextCommand := ReplaceRegExpr('%errfile%', TextCommand, GetQuotedParam(TextFileError));
+    TextCommand := ReplaceRegExpr('%package%',    TextCommand, Configuration.Package);
+    TextCommand := ReplaceRegExpr('%packagedir%', TextCommand, Configuration.DirPackage);
+    TextCommand := ReplaceRegExpr('%gamedir%',    TextCommand, Configuration.DirGame);
+    TextCommand := ReplaceRegExpr('%errfile%',    TextCommand, GetQuotedParam(TextFileError));
 
     if IndexLineError = 0
       then TextCommand := ReplaceRegExpr('%errline%', TextCommand, '1')
