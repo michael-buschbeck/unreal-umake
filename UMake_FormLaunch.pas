@@ -32,7 +32,6 @@ type
     procedure ComboBoxProjectChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure ButtonCompileClick(Sender: TObject);
 
   protected
     procedure MessageDropFiles(var Msg: TWMDropFiles); message WM_DROPFILES;
@@ -162,29 +161,5 @@ begin
   FormOptions.ShowModal;
 end;
 
-
-procedure TFormLaunch.ButtonCompileClick(Sender: TObject);
-var
-  IndexProject: Integer;
-  TextDirProject: string;
-begin
-  TextDirProject := Trim(ComboBoxProject.Text);
-  Options.RegOptProjects.Value := TextDirProject;
-
-  IndexProject := 0;
-
-  while IndexProject < Options.RegOptProjects.ItemCount do
-  begin
-    if AnsiCompareText(TextDirProject, Options.RegOptProjects[IndexProject].Value) <= 0 then
-      Break;
-    Inc(IndexProject);
-  end;
-
-  if (IndexProject >= Options.RegOptProjects.ItemCount) or not AnsiSameText(TextDirProject, Options.RegOptProjects[IndexProject].Value) then
-  begin
-    Options.RegOptProjects.ItemInsert(IndexProject);
-    Options.RegOptProjects[IndexProject].Value := TextDirProject;
-  end;
-end;
 
 end.

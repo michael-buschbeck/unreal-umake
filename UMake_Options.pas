@@ -6,7 +6,7 @@ interface
 
 uses
   UMake_Configuration,
-  Forms, RegOpts;
+  Forms, FileCtrl, RegOpts;
 
 
 (*****************************************************************************)
@@ -54,6 +54,7 @@ const
   TextNameSettingPerform: array [TOptionsPerformIndex] of string = ('Success', 'Failure');
 var
   IndexPerform: TOptionsPerformIndex;
+  IndexProject: Integer;
   Registry: TRegistry;
   TextFileSound: string;
   TextNameSetting: string;
@@ -61,6 +62,13 @@ var
 begin
   RegOptEditor   := TRegOptString.Create(TextNameProgram, 'Editor', '');
   RegOptProjects := TRegOptString.CreateList(TextNameProgram, 'Projects');
+
+  for IndexProject := RegOptProjects.ItemCount - 1 downto 0 do
+    if not DirectoryExists(RegOptProjects[IndexProject].Value) then
+      RegOptProjects.ItemDelete(IndexProject);
+
+  if not DirectoryExists(RegOptProjects.Value) then
+    RegOptProjects.Value := '';
 
   Registry := TRegistry.Create;
 

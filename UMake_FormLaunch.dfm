@@ -121,7 +121,6 @@ object FormLaunch: TFormLaunch
     Enabled = False
     ModalResult = 1
     TabOrder = 3
-    OnClick = ButtonCompileClick
   end
   object ButtonClose: TButton
     Left = 304

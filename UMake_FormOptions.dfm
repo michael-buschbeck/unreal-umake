@@ -24,7 +24,7 @@ object FormOptions: TFormOptions
     Top = 4
     Width = 434
     Height = 262
-    ActivePage = TabSheetGeneral
+    ActivePage = TabSheetShortcuts
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
     OnChange = PageControlChange

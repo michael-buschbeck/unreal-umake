@@ -260,6 +260,7 @@ var
   FlagUpdated: Boolean;
   IndexPackage: Integer;
   IndexParam: Integer;
+  IndexProject: Integer;
   ResultFind: Integer;
   SearchRec: TSearchRec;
   TextDirPackage: string;
@@ -339,6 +340,21 @@ begin
       Close;
     end
     else begin
+      Options.RegOptProjects.Value := Configuration.DirPackage;
+      IndexProject := 0;
+
+      while IndexProject < Options.RegOptProjects.ItemCount do
+      begin
+        if AnsiCompareText(Configuration.DirPackage, Options.RegOptProjects[IndexProject].Value) <= 0 then Break;
+        Inc(IndexProject);
+      end;
+
+      if (IndexProject >= Options.RegOptProjects.ItemCount) or not AnsiSameText(Configuration.DirPackage, Options.RegOptProjects[IndexProject].Value) then
+      begin
+        Options.RegOptProjects.ItemInsert(IndexProject);
+        Options.RegOptProjects[IndexProject].Value := Configuration.DirPackage;
+      end;
+
       if not FileExists(IncludeTrailingBackslash(Configuration.DirGame) + Configuration.Package + '\make.ini') then
       begin
         FormOptions.Configuration := Configuration;
