@@ -17,20 +17,22 @@ uses
 type
   TFormLaunch = class(TForm)
     BevelHints: TBevel;
-    ButtonBrowseSource: TBitBtn;
+    ButtonBrowseProject: TBitBtn;
     ButtonClose: TButton;
     ButtonCompile: TButton;
     ButtonOptions: TButton;
-    EditSource: TEdit;
     LabelHints: TLabel;
     LabelHintsParagraph1: TLabel;
     LabelHintsParagraph2: TLabel;
     LabelSource: TLabel;
+    ComboBoxProject: TComboBox;
 
-    procedure ButtonBrowseSourceClick(Sender: TObject);
+    procedure ButtonBrowseProjectClick(Sender: TObject);
     procedure ButtonOptionsClick(Sender: TObject);
-    procedure EditSourceChange(Sender: TObject);
+    procedure ComboBoxProjectChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure ButtonCompileClick(Sender: TObject);
 
   protected
     procedure MessageDropFiles(var Msg: TWMDropFiles); message WM_DROPFILES;
@@ -62,6 +64,18 @@ begin
 end;
 
 
+procedure TFormLaunch.FormShow(Sender: TObject);
+var
+  IndexProject: Integer;
+begin
+  for IndexProject := 0 to Options.RegOptProjects.ItemCount - 1 do
+    ComboBoxProject.Items.Add(Options.RegOptProjects[IndexProject].Value);
+
+  ComboBoxProject.Text := Options.RegOptProjects.Value;
+  ComboBoxProjectChange(ComboBoxProject);
+end;
+
+
 procedure TFormLaunch.MessageDropFiles(var Msg: TWMDropFiles);
 var
   LengthTextFileDropped: Integer;
@@ -78,12 +92,12 @@ begin
   if AnsiSameText(ExtractFileName(TextFileDropped), 'Classes') then
     TextFileDropped := ExcludeTrailingBackslash(ExtractFilePath(TextFileDropped));
 
-  EditSource.Text := TextFileDropped;
-  EditSource.SelectAll;
+  ComboBoxProject.Text := TextFileDropped;
+  ComboBoxProject.SelectAll;
 end;
 
 
-procedure TFormLaunch.ButtonBrowseSourceClick(Sender: TObject);
+procedure TFormLaunch.ButtonBrowseProjectClick(Sender: TObject);
 var
   BrowseInfo: TBrowseInfo;
   PointerIdListPath: Pointer;
@@ -107,20 +121,22 @@ begin
     SetLength(TextDirPath, Pos(#0, TextDirPath) - 1);
     if AnsiSameText(ExtractFileName(TextDirPath), 'Classes') then
       TextDirPath := ExcludeTrailingBackslash(ExtractFilePath(TextDirPath));
-    EditSource.Text := TextDirPath;
+
+    ComboBoxProject.Text := TextDirPath;
+    ComboBoxProjectChange(ComboBoxProject);
   end;
 
-  EditSource.SetFocus;
+  ComboBoxProject.SetFocus;
 end;
 
 
-procedure TFormLaunch.EditSourceChange(Sender: TObject);
+procedure TFormLaunch.ComboBoxProjectChange(Sender: TObject);
 var
   TextDirPackage: string;
 begin
   FreeAndNil(Configuration);
 
-  TextDirPackage := Trim(EditSource.Text);
+  TextDirPackage := Trim(ComboBoxProject.Text);
   if DirectoryExists(TextDirPackage) then
   begin
     TextDirPackage := GetLongPath(TextDirPackage);
@@ -146,5 +162,29 @@ begin
   FormOptions.ShowModal;
 end;
 
+
+procedure TFormLaunch.ButtonCompileClick(Sender: TObject);
+var
+  IndexProject: Integer;
+  TextDirProject: string;
+begin
+  TextDirProject := Trim(ComboBoxProject.Text);
+  Options.RegOptProjects.Value := TextDirProject;
+
+  IndexProject := 0;
+
+  while IndexProject < Options.RegOptProjects.ItemCount do
+  begin
+    if AnsiCompareText(TextDirProject, Options.RegOptProjects[IndexProject].Value) <= 0 then
+      Break;
+    Inc(IndexProject);
+  end;
+
+  if (IndexProject >= Options.RegOptProjects.ItemCount) or not AnsiSameText(TextDirProject, Options.RegOptProjects[IndexProject].Value) then
+  begin
+    Options.RegOptProjects.ItemInsert(IndexProject);
+    Options.RegOptProjects[IndexProject].Value := TextDirProject;
+  end;
+end;
 
 end.

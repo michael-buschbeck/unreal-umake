@@ -15,6 +15,7 @@ object FormLaunch: TFormLaunch
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object LabelSource: TLabel
@@ -23,7 +24,6 @@ object FormLaunch: TFormLaunch
     Width = 289
     Height = 13
     Caption = 'Enter the &UnrealScript project directory you wish to compile:'
-    FocusControl = EditSource
   end
   object LabelHintsParagraph2: TLabel
     Left = 32
@@ -66,14 +66,14 @@ object FormLaunch: TFormLaunch
       'Drop an UnrealScript source file on the UMake icon to compile it' +
       '.'
   end
-  object ButtonBrowseSource: TBitBtn
+  object ButtonBrowseProject: TBitBtn
     Left = 360
     Top = 30
     Width = 25
     Height = 25
     Anchors = [akTop, akRight]
     TabOrder = 1
-    OnClick = ButtonBrowseSourceClick
+    OnClick = ButtonBrowseProjectClick
     Glyph.Data = {
       06030000424D06030000000000003600000028000000100000000F0000000100
       180000000000D0020000120B0000120B00000000000000000000C0C0C0C0C0C0
@@ -111,15 +111,6 @@ object FormLaunch: TFormLaunch
     TabOrder = 2
     OnClick = ButtonOptionsClick
   end
-  object EditSource: TEdit
-    Left = 8
-    Top = 32
-    Width = 345
-    Height = 21
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 0
-    OnChange = EditSourceChange
-  end
   object ButtonCompile: TButton
     Left = 220
     Top = 176
@@ -130,6 +121,7 @@ object FormLaunch: TFormLaunch
     Enabled = False
     ModalResult = 1
     TabOrder = 3
+    OnClick = ButtonCompileClick
   end
   object ButtonClose: TButton
     Left = 304
@@ -140,5 +132,14 @@ object FormLaunch: TFormLaunch
     Caption = 'Close'
     ModalResult = 2
     TabOrder = 4
+  end
+  object ComboBoxProject: TComboBox
+    Left = 8
+    Top = 32
+    Width = 345
+    Height = 21
+    ItemHeight = 13
+    TabOrder = 0
+    OnChange = ComboBoxProjectChange
   end
 end
