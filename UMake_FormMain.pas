@@ -571,7 +571,7 @@ begin
   RegExprCompiling     .Expression := '^Compiling\s+(\w+)';
   RegExprCompleted     .Expression := '^(Success|Failure) - \d+ error\(s\)';
   RegExprErrorCompile  .Expression := '^([A-Za-z]:\\.*?\\Classes\\\w+\.uc)\s*\((\d+)\)\s*:\s*Error,\s*(.*)';
-  RegExprErrorParse    .Expression := '^Script vs. class name mismatch|^Bad class definition|^Superclass \S+ of class \S+ not found|^[^:]+: Unknown property';
+  RegExprErrorParse    .Expression := '^Script vs. class name mismatch|^Bad class definition|^Superclass \S+ of class \S+ not found|^[^:]+: Unknown property|^ObjectProperty';
   RegExprWarningCompile.Expression := '^([A-Za-z]:\\.*?\\Classes\\\w+\.uc)\s*\((\d+)\)\s*:\s*ExecWarning,\s*(.*)';
   RegExprWarningParse  .Expression := '^Failed loading\s+.*';
 

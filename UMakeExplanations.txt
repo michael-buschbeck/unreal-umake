@@ -32,6 +32,7 @@
 ^Missing ; before	The most common cause for this error is an attempt to return a value from a function that doesn't have a return value type in its declaration.
 ^Failed loading package	The compiler wasn't able to load the specified package.
 ^Unknown property in defaults	One of the variables you attempted to set in the "defaultproperties" section doesn't exist in the current class. (The compiler reports this error both in parsing and compiling stage.)\nIf you're coding for Unreal Tournament or another game using the same engine, keep in mind that no blanks are allowed around the "=" sign.
+^ObjectProperty \S+\.([^.:]+): unresolved reference to ([^']+)'([^']+)'	The compiler wasn't able to find the $2 object named $3 you tried to set the $1 variable to in the "defaultproperties" section.
 ^Import Texture \S+	The compiler wasn't able to import the texture from the file you specified.\nCheck for typos, and keep in mind that your project directory is the base directory for file specifications here.
 ^Failed factoring	The compiler wasn't able to import the object from the file you specified.\nCheck for typos, and keep in mind that your project directory is the base directory for file specifications here.
 ^Texture dimensions are not powers of two	The compiler can only import textures whose pixel dimensions are powers of two (like 2, 4, 8, 16, and so on).
