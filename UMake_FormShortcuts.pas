@@ -16,6 +16,9 @@ uses
 
 type
   TFormShortcuts = class(TForm)
+    BevelAuto: TBevel;
+    BevelGeneric: TBevel;
+    BevelProject: TBevel;
     ButtonBrowseGame: TBitBtn;
     ButtonCancel: TButton;
     ButtonCreate: TButton;
@@ -104,6 +107,7 @@ begin
   begin
     LabelProject.Caption := Format('for %s', [Configuration.Package]);
     LabelExplanationProject.Caption := Format('Double-click this shortcut to directly compile the currently loaded project, %s.', [Configuration.Package]);
+    BevelProject.SetBounds(LabelProject.Left + LabelProject.Width + 5, BevelProject.Top, BevelProject.Left + BevelProject.Width - LabelProject.Left - LabelProject.Width - 5, BevelProject.Height);
     ComboBoxGame.Text := ExcludeTrailingBackslash(Configuration.DirGame);
   end
   else begin
@@ -111,6 +115,7 @@ begin
     LabelProject.Hide;
     LabelExplanationProject.Enabled := False;
     LabelExplanationProject.Caption := 'Load a project first to enable this option.';
+    BevelProject.SetBounds(LabelProject.Left + 2, BevelProject.Top, BevelProject.Left + BevelProject.Width - LabelProject.Left - 2, BevelProject.Height);
   end;
 end;
 

@@ -1,6 +1,6 @@
 object FormShortcuts: TFormShortcuts
-  Left = 391
-  Top = 210
+  Left = 422
+  Top = 296
   BorderStyle = bsDialog
   Caption = 'UMake Desktop Shortcuts'
   ClientHeight = 285
@@ -16,9 +16,9 @@ object FormShortcuts: TFormShortcuts
   PixelsPerInch = 96
   TextHeight = 13
   object LabelExplanationGeneric: TLabel
-    Left = 26
+    Left = 42
     Top = 36
-    Width = 327
+    Width = 311
     Height = 26
     Anchors = [akLeft, akTop, akRight]
     AutoSize = False
@@ -28,9 +28,9 @@ object FormShortcuts: TFormShortcuts
     WordWrap = True
   end
   object LabelExplanationProject: TLabel
-    Left = 26
+    Left = 42
     Top = 104
-    Width = 327
+    Width = 311
     Height = 26
     Anchors = [akLeft, akTop, akRight]
     AutoSize = False
@@ -40,16 +40,16 @@ object FormShortcuts: TFormShortcuts
     WordWrap = True
   end
   object LabelProject: TLabel
-    Left = 123
+    Left = 122
     Top = 81
     Width = 51
     Height = 13
     Caption = 'for Project'
   end
   object LabelExplanationAuto: TLabel
-    Left = 26
+    Left = 42
     Top = 172
-    Width = 327
+    Width = 311
     Height = 26
     Anchors = [akLeft, akTop, akRight]
     AutoSize = False
@@ -57,6 +57,27 @@ object FormShortcuts: TFormShortcuts
       'Double-click this shortcut to directly compile the most recently' +
       ' modified project in the following game directory:'
     WordWrap = True
+  end
+  object BevelGeneric: TBevel
+    Left = 168
+    Top = 20
+    Width = 193
+    Height = 2
+    Anchors = [akLeft, akTop, akRight]
+  end
+  object BevelProject: TBevel
+    Left = 179
+    Top = 88
+    Width = 182
+    Height = 2
+    Anchors = [akLeft, akTop, akRight]
+  end
+  object BevelAuto: TBevel
+    Left = 208
+    Top = 156
+    Width = 153
+    Height = 2
+    Anchors = [akLeft, akTop, akRight]
   end
   object RadioButtonGeneric: TRadioButton
     Left = 8
@@ -103,9 +124,9 @@ object FormShortcuts: TFormShortcuts
     TabOrder = 2
   end
   object ComboBoxGame: TComboBox
-    Left = 25
+    Left = 41
     Top = 210
-    Width = 312
+    Width = 288
     Height = 21
     Anchors = [akLeft, akTop, akRight]
     ItemHeight = 13
@@ -114,7 +135,7 @@ object FormShortcuts: TFormShortcuts
     OnChange = ComboBoxGameChange
   end
   object ButtonBrowseGame: TBitBtn
-    Left = 344
+    Left = 336
     Top = 208
     Width = 25
     Height = 25
