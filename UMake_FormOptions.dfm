@@ -24,7 +24,7 @@ object FormOptions: TFormOptions
     Top = 4
     Width = 434
     Height = 262
-    ActivePage = TabSheetGeneral
+    ActivePage = TabSheetProject
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
     OnChange = PageControlChange
@@ -577,7 +577,7 @@ object FormOptions: TFormOptions
         Top = 16
         Width = 54
         Height = 13
-        Caption = 'Version 1.0'
+        Caption = 'Version 1.1'
       end
       object LabelAboutHashes: TLabel
         Left = 24
