@@ -149,8 +149,10 @@ begin
     TextCommand := RegOptEditor.Value;
     TextCommand := ReplaceRegExpr('%package%', TextCommand, Configuration.Package);
     TextCommand := ReplaceRegExpr('%errfile%', TextCommand, GetQuotedParam(TextFileError));
-    TextCommand := ReplaceRegExpr('%errline%', TextCommand, IntToStr(IndexLineError));
 
+    if IndexLineError = 0
+      then TextCommand := ReplaceRegExpr('%errline%', TextCommand, '1')
+      else TextCommand := ReplaceRegExpr('%errline%', TextCommand, IntToStr(IndexLineError));
 
     if not LaunchProgram(TextCommand) then
       Application.MessageBox('Unable to start specified source code editor.', PChar(Application.Title), MB_ICONERROR);

@@ -86,6 +86,7 @@ type
 
     FlagClosing: Boolean;
     PipedProcess: TPipedProcess;
+    RegExprClass: TRegExpr;
     RegExprCompiling: TRegExpr;
     RegExprCompleted: TRegExpr;
     RegExprPackage: TRegExpr;
@@ -163,7 +164,6 @@ begin
     FTextMessageFormatted := ReplaceRegExpr('^''|''$',       FTextMessageFormatted, '');
     FTextMessageFormatted := ReplaceRegExpr('(\W)''|''(\W)', FTextMessageFormatted, '$1$2', True);
     FTextMessageFormatted := ReplaceRegExpr('([^.])$',       FTextMessageFormatted, '$1.',  True);
-    FTextMessageFormatted := ReplaceRegExpr('^\w+\.\w+:\s*', FTextMessageFormatted, '');
   end;
 
   Result := FTextMessageFormatted;
@@ -426,9 +426,12 @@ var
   RegExprParagraph: TRegExpr;
   StringListParagraphs: TStringList;
 begin
-  if Length(InfoError.TextFile) = 0
-    then LabelLocation.Caption := 'Occurred before compilation'
-    else LabelLocation.Caption := Format('%s (line %d)', [ExtractFileName(InfoError.TextFile), InfoError.IndexLine]);
+  if Length(InfoError.TextFile) = 0 then
+    LabelLocation.Caption := 'Occurred before compilation'
+  else if InfoError.IndexLine = 0 then
+    LabelLocation.Caption := ExtractFileName(InfoError.TextFile)
+  else
+    LabelLocation.Caption := Format('%s (line %d)', [ExtractFileName(InfoError.TextFile), InfoError.IndexLine]);
 
   RichEdit.Lines.BeginUpdate;
   RichEdit.Clear;
@@ -507,6 +510,7 @@ begin
   RichEditMessages.Paragraph.FirstIndent := 2;
   RichEditMessages.Paragraph.LeftIndent  := 6;
 
+  RegExprClass          := TRegExpr.Create;
   RegExprPackage        := TRegExpr.Create;
   RegExprParsing        := TRegExpr.Create;
   RegExprCompiling      := TRegExpr.Create;
@@ -515,6 +519,16 @@ begin
   RegExprErrorParse     := TRegExpr.Create;
   RegExprWarningCompile := TRegExpr.Create;
   RegExprWarningParse   := TRegExpr.Create;
+
+  RegExprClass         .Expression := '^([^.]+\.)?(\w+)';
+  RegExprPackage       .Expression := '^-+\s*(\w+)(\s*-\s*(\w+))?';
+  RegExprParsing       .Expression := '^Parsing\s+(\w+)';
+  RegExprCompiling     .Expression := '^Compiling\s+(\w+)';
+  RegExprCompleted     .Expression := '^(Success|Failure) - \d+ error\(s\)';
+  RegExprErrorCompile  .Expression := '^([A-Za-z]:\\.*?\\Classes\\\w+\.uc)\s*\((\d+)\)\s*:\s*Error,\s*(.*)';
+  RegExprErrorParse    .Expression := '^Script vs. class name mismatch \((([^/]+))/[^)]+\)|^Bad class definition|^Superclass \S+ of class ((\S+)) not found|^([^:]+: )Unknown property|^ObjectProperty ([^.]+\.[^.]+\.)';
+  RegExprWarningCompile.Expression := '^([A-Za-z]:\\.*?\\Classes\\\w+\.uc)\s*\((\d+)\)\s*:\s*ExecWarning,\s*(.*)';
+  RegExprWarningParse  .Expression := '^Failed loading\s+.*';
 
   InfoError := TInfoError.Create;
   ListInfoWarning := TList.Create;
@@ -548,6 +562,7 @@ procedure TFormMain.PipedProcessOutput(Sender: TObject; const TextData: string; 
 var
   ColorLine: TColor;
   IndexCharSeparator: Integer;
+  IndexMatch: Integer;
   InfoWarning: TInfoError;
   TextLine: string;
 
@@ -565,15 +580,6 @@ begin
     ButtonAbort.Enabled := True;
 
   RichEditMessages.Lines.BeginUpdate;
-
-  RegExprPackage       .Expression := '^-+\s*(\w+)(\s*-\s*(\w+))?';
-  RegExprParsing       .Expression := '^Parsing\s+(\w+)';
-  RegExprCompiling     .Expression := '^Compiling\s+(\w+)';
-  RegExprCompleted     .Expression := '^(Success|Failure) - \d+ error\(s\)';
-  RegExprErrorCompile  .Expression := '^([A-Za-z]:\\.*?\\Classes\\\w+\.uc)\s*\((\d+)\)\s*:\s*Error,\s*(.*)';
-  RegExprErrorParse    .Expression := '^Script vs. class name mismatch|^Bad class definition|^Superclass \S+ of class \S+ not found|^[^:]+: Unknown property|^ObjectProperty';
-  RegExprWarningCompile.Expression := '^([A-Za-z]:\\.*?\\Classes\\\w+\.uc)\s*\((\d+)\)\s*:\s*ExecWarning,\s*(.*)';
-  RegExprWarningParse  .Expression := '^Failed loading\s+.*';
 
   AppendStr(TextBufferPipe, TextData);
   while Length(TextBufferPipe) > 0 do
@@ -626,6 +632,17 @@ begin
       InfoError.TextFile    := '';
       InfoError.TextMessage := TextLine;
       InfoError.IndexLine   := 0;
+
+      for IndexMatch := 1 to RegExprErrorParse.SubExprMatchCount do
+      begin
+        if (RegExprErrorParse.MatchLen[IndexMatch] > 0) and RegExprClass.Exec(RegExprErrorParse.Match[IndexMatch]) then
+        begin
+          Delete(InfoError.TextMessage, RegExprErrorParse.MatchPos[IndexMatch], RegExprErrorParse.MatchLen[IndexMatch]);
+          Insert(RegExprErrorParse.Match[IndexMatch + 1], InfoError.TextMessage, RegExprErrorParse.MatchPos[IndexMatch]);
+          InfoError.TextFile := IncludeTrailingBackslash(Configuration.DirPackage) + 'Classes\' + RegExprClass.Match[2] + '.uc';
+          Break;
+        end;
+      end;
 
       ColorLine := clRed;
     end
@@ -875,6 +892,7 @@ begin
   Options.Free;
   PipedProcess.Free;
 
+  RegExprClass.Free;
   RegExprCompiling.Free;
   RegExprCompleted.Free;
   RegExprErrorCompile.Free;
