@@ -646,12 +646,6 @@ end;
 
 
 procedure TFormMain.PipedProcessOutput(Sender: TObject; const TextData: string; Pipe: TPipedOutput);
-var
-  ColorLine: TColor;
-  IndexCharSeparator: Integer;
-  IndexMatch: Integer;
-  InfoWarning: TInfoError;
-  TextLine: string;
 
 
   function FormatError(TextType: string; InfoError: TInfoError): string;
@@ -662,6 +656,14 @@ var
   end;
 
 
+var
+  ColorLine: TColor;
+  IndexCharSeparator: Integer;
+  IndexCharSeparatorCR: Integer;
+  IndexCharSeparatorLF: Integer;
+  IndexMatch: Integer;
+  InfoWarning: TInfoError;
+  TextLine: string;
 begin
   if not FlagClosing then
     ButtonAbort.Enabled := True;
@@ -671,7 +673,20 @@ begin
   AppendStr(TextBufferPipe, TextData);
   while Length(TextBufferPipe) > 0 do
   begin
-    IndexCharSeparator := Pos(#10, TextBufferPipe);
+    IndexCharSeparatorCR := Pos(#13, TextBufferPipe);
+    IndexCharSeparatorLF := Pos(#10, TextBufferPipe);
+
+    if IndexCharSeparatorCR = Length(TextBufferPipe) then
+      IndexCharSeparatorCR := 0;
+
+         if IndexCharSeparatorCR = 0 then IndexCharSeparator := IndexCharSeparatorLF
+    else if IndexCharSeparatorLF = 0 then IndexCharSeparator := IndexCharSeparatorCR
+    else begin
+      if IndexCharSeparatorCR < IndexCharSeparatorLF - 1
+        then IndexCharSeparator := IndexCharSeparatorCR
+        else IndexCharSeparator := IndexCharSeparatorLF;
+    end;
+
     if IndexCharSeparator = 0 then
       Break;
 
