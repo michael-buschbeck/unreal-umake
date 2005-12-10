@@ -1,6 +1,6 @@
 ===============================================================================
-UMake 1.1
-Copyright 2002 by Mychaeel <mychaeel@beyondunreal.com>
+UMake 1.2
+Copyright 2002-2004 by Mychaeel <mychaeel@beyondunreal.com>
 ===============================================================================
 
 Mail all bug reports and suggestions to Mychaeel <mychaeel@beyondunreal.com>
@@ -61,6 +61,10 @@ file that caused the problem (if you configure UMake that way).
 ===============================================================================
 Changes
 ===============================================================================
+
+Version 1.2 (2004-06-01)
+* Added support for the CacheRecordPath setting required as of build 3204.
+* The make.ini file is only written to disk when it changes.
 
 Version 1.1 (2002-11-10)
 * Added option to always automatically display compilation details.
