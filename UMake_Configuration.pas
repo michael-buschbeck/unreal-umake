@@ -330,9 +330,11 @@ begin
     StringListIni.Add('CacheSizeMegs=32');
   end;
 
-  InsertSetting ('Core.System',         'CacheRecordPath', TextDirCacheRecord);
   InsertSettings('Core.System',         'Paths',           StringListPaths);
   InsertSettings('Editor.EditorEngine', 'EditPackages',    StringListPackages);
+
+  if Length(TextDirCacheRecord) > 0 then
+    InsertSetting ('Core.System', 'CacheRecordPath', TextDirCacheRecord);
 
   if StringListIni.Count <> StringListIniOriginal.Count then
   begin
