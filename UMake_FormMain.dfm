@@ -21,6 +21,9 @@ object FormMain: TFormMain
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  DesignSize = (
+    307
+    334)
   PixelsPerInch = 96
   TextHeight = 13
   object ButtonDetails: TButton
@@ -54,7 +57,6 @@ object FormMain: TFormMain
     Width = 290
     Height = 12
     Anchors = [akLeft, akTop, akRight]
-    Min = 0
     Max = 1
     Step = 1
     TabOrder = 1
@@ -80,6 +82,9 @@ object FormMain: TFormMain
     object TabSheetError: TTabSheet
       Caption = 'Error'
       OnResize = TabSheetErrorResize
+      DesignSize = (
+        283
+        202)
       object ImageError: TImage
         Left = 11
         Top = 11
@@ -132,6 +137,9 @@ object FormMain: TFormMain
       Caption = 'Warnings'
       ImageIndex = 2
       OnResize = TabSheetWarningsResize
+      DesignSize = (
+        283
+        202)
       object ImageWarning: TImage
         Left = 11
         Top = 11
@@ -193,7 +201,7 @@ object FormMain: TFormMain
         Width = 57
         Height = 25
         Anchors = [akLeft, akBottom]
-        Caption = '&Next ››'
+        Caption = '&Next '#8250#8250
         Enabled = False
         TabOrder = 1
         OnClick = ButtonWarningNextClick
@@ -204,7 +212,7 @@ object FormMain: TFormMain
         Width = 57
         Height = 25
         Anchors = [akLeft, akBottom]
-        Caption = '‹‹ &Prev'
+        Caption = #8249#8249' &Prev'
         Enabled = False
         TabOrder = 2
         OnClick = ButtonWarningPrevClick

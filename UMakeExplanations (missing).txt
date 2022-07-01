@@ -1,0 +1,8 @@
+Missing variable name
+Missing function
+state: expecting State, got Function
+You can only access default values of variables here
+Bad or missing expression in If
+Right type is incompatible with <.
+Bad or missing expression in For
+Redefinition of function ScoreEvent differs from original.

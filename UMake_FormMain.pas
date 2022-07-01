@@ -620,7 +620,7 @@ begin
   Configuration.Write;
   TextDirSystem := IncludeTrailingBackslash(Configuration.DirGame) + 'System';
 
-  TextCommand := Format('%s make ini=%s',
+  TextCommand := Format('%s make -silent ini=%s',
     [GetQuotedParam(IncludeTrailingBackslash(TextDirSystem) + 'ucc.exe'),
      GetQuotedParam(GetRelativePath(IncludeTrailingBackslash(Configuration.DirPackage) + 'make.ini', IncludeTrailingBackslash(TextDirSystem)))]);
 
